@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Informasi Bahan Ajar - SITTA UT</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body id="halaman-stock">
+    <header>
+      <nav class="navbar" aria-label="Menu utama">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="stok.html" class="aktif">Informasi Bahan Ajar</a>
+        <a href="tracking.html">Tracking Pengiriman</a>
+        <button type="button" class="keluar" id="btnKeluar">Keluar</button>
+      </nav>
+    </header>
+
+    <main class="konten">
+      <h1>Informasi Bahan Ajar</h1>
+      <p>Stok di bawah 200 ditandai merah. Klik baris untuk melihat detail.</p>
+      <div id="alertStock" class="alert" hidden role="alert"></div>
+
+      <div class="scroll">
+        <table>
+          <caption>
+            Daftar stok bahan ajar
+          </caption>
+          <thead>
+            <tr>
+              <th>Cover</th>
+              <th>Kode Lokasi</th>
+              <th>Kode Barang</th>
+              <th>Nama Barang</th>
+              <th>Jenis</th>
+              <th>Edisi</th>
+              <th>Stok</th>
+            </tr>
+          </thead>
+          <tbody id="tbStock"></tbody>
+        </table>
+      </div>
+
+      <section class="kotak">
+        <h2>Tambah Stok Baru</h2>
+        <form id="formStock" novalidate>
+          <div class="grid">
+            <div>
+              <label for="fLokasi">Kode Lokasi</label><input id="fLokasi" />
+              <p class="pesan" id="eLokasi"></p>
+            </div>
+            <div>
+              <label for="fKode">Kode Barang</label><input id="fKode" />
+              <p class="pesan" id="eKode"></p>
+            </div>
+            <div>
+              <label for="fNama">Nama Barang</label><input id="fNama" />
+              <p class="pesan" id="eNama"></p>
+            </div>
+            <div>
+              <label for="fJenis">Jenis Barang</label>
+              <select name="jenis" id="fJenis">
+                <option value="BMP">BMP</option>
+                <option value="NBMP">NBMP</option>
+              </select>
+            </div>
+            <div>
+              <label for="fEdisi">Edisi</label
+              ><input type="number" name="edisi" id="fEdisi" min="1" />
+              <p class="pesan" id="eEdisi"></p>
+            </div>
+            <div>
+              <label for="fStock">Stok</label
+              ><input type="number" name="stok" id="fStock" min="0" />
+              <p class="pesan" id="eStock"></p>
+            </div>
+          </div>
+          <button type="submit" class="btn">Tambah</button>
+        </form>
+      </section>
+    </main>
+
+    <div class="modal" id="modalDetail">
+      <div class="isi">
+        <img id="dtImg" class="besar" src="" alt="" />
+        <h2 id="dtJudul"></h2>
+        <p id="dtInfo"></p>
+        <button type="button" class="btn" data-tutup="modalDetail">
+          Tutup
+        </button>
+      </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

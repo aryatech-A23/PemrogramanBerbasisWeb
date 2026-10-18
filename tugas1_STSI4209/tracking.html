@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tracking Pengiriman - SITTA UT</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body id="halaman-tracking">
+    <header>
+      <nav class="navbar" aria-label="Menu utama">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="stok.html">Informasi Bahan Ajar</a>
+        <a href="tracking.html" class="aktif">Tracking Pengiriman</a>
+        <button type="button" class="keluar" id="btnKeluar">Keluar</button>
+      </nav>
+    </header>
+
+    <main class="konten">
+      <h1>Tracking Pengiriman</h1>
+      <p>Contoh nomor DO: 2023001234 atau 2023005678</p>
+      <form id="formTrack" class="kotak" novalidate>
+        <label for="noDO">Nomor Delivery Order</label>
+        <input
+          type="text"
+          name="noDO"
+          id="noDO"
+          maxlength="10"
+          inputmode="numeric"
+        />
+        <p class="pesan" id="errDO"></p>
+        <button type="submit" class="btn">Cari</button>
+      </form>
+      <section id="hasil" aria-live="polite"></section>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

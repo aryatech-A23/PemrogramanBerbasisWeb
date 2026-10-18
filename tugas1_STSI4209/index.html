@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login - SITTA UT</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body id="halaman-login" class="login-body">
+    <main class="login-box">
+      <h1>Selamat datang</h1>
+      <form id="formLogin" novalidate>
+        <label for="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="nama@ut.ac.id"
+          autocomplete="username"
+        />
+        <p class="pesan" id="errEmail"></p>
+
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          autocomplete="current-password"
+        />
+        <p class="pesan" id="errPass"></p>
+
+        <p class="kanan">
+          <button type="button" class="tautan" id="btnLupa">
+            Lupa Password ya?
+          </button>
+        </p>
+        <button type="submit" class="btn">Log in</button>
+      </form>
+      <p class="tengah">
+        <button type="button" class="tautan" id="btnDaftar">
+          Belum buat akun? daftar dulu
+        </button>
+      </p>
+    </main>
+
+    <div class="modal" id="modalLupa">
+      <div class="isi">
+        <h2>Lupa Password</h2>
+        <form id="formLupa" novalidate>
+          <label for="emailLupa">Email sudah terdaftar</label>
+          <input type="email" id="emailLupa" />
+          <p class="pesan" id="errLupa"></p>
+          <button type="submit" class="btn">Kirim</button>
+          <button type="button" class="btn abu" data-tutup="modalLupa">
+            Batal
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal" id="modalDaftar">
+      <div class="isi">
+        <h2>Daftar akun</h2>
+        <form id="formDaftar" novalidate>
+          <label for="dNama">Nama Lengkap</label>
+          <input type="text" id="dNama" />
+          <p class="pesan" id="errDNama"></p>
+          <label for="dEmail">Email</label>
+          <input type="email" id="dEmail" />
+          <p class="pesan" id="errDEmail"></p>
+          <label for="dPass">Password</label>
+          <input type="password" id="dPass" />
+          <p class="pesan" id="errDPass"></p>
+          <button type="submit" class="btn">Daftar</button>
+          <button type="button" class="btn abu" data-tutup="modalDaftar">
+            Batalkan
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

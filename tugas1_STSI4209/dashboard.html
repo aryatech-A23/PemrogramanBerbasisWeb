@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - SITTA UT</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      /**/
+      .kartu-ringkas div:hover {
+        transform: translateY(-2px);
+        transition: transform 0.15s;
+      }
+    </style>
+  </head>
+  <body id="halaman-dashboard">
+    <header>
+      <nav class="navbar" aria-label="Menu utama">
+        <a href="stok.html">Informasi Bahan Ajar</a>
+        <a href="tracking.html">Tracking Pengiriman</a>
+        <div class="dropdown">
+          <button type="button" class="dropbtn">Laporan &#9662;</button>
+          <div class="dropdown-isi">
+            <a href="#" class="belum">Monitoring Progress DO Bahan Ajar</a>
+            <a href="#" class="belum">Rekap Bahan Ajar</a>
+          </div>
+        </div>
+        <a href="#" class="belum">Histori Transaksi Bahan Ajar</a>
+        <button type="button" class="keluar" id="btnKeluar">Keluar</button>
+      </nav>
+    </header>
+
+    <main class="konten">
+      <h1>Dashboard Aplikasi SITTA</h1>
+      <p id="greeting" class="greeting"></p>
+      <!-- CSS inline pada baris info pengguna -->
+      <p id="infoUser" style="color: #10243a; margin-top: 4px"></p>
+      <section class="kartu-ringkas" aria-label="Ringkasan data">
+        <div><strong id="sJudul">0</strong> Judul bahan ajar</div>
+        <div><strong id="sStock">0</strong> Total stok</div>
+        <div><strong id="sDO">0</strong> DO tercatat</div>
+      </section>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

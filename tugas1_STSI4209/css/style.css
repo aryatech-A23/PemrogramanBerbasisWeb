@@ -1,0 +1,332 @@
+:root {
+  --bg: #70b7a9;
+  --biru: #0f9bff;
+  --biru2: #0b7fd1;
+  --kuning: #ffe00f;
+  --garis: #d9deea;
+  --err: #ff1b0f;
+  --ok: #1f7a4d;
+  --teks: #10243a;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--teks);
+  line-height: 1.5;
+}
+
+/* Tampilan login */
+.login-body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 18px;
+}
+.login-box {
+  background: #fff;
+  width: 100%;
+  max-width: 380px;
+  padding: 28px;
+  border-radius: 10px;
+  border-top: 5px solid var(--kuning);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+.login-box h1 {
+  color: var(--biru2);
+  margin-top: 0;
+}
+.kanan {
+  text-align: right;
+}
+.tengah {
+  text-align: center;
+}
+
+/* Navbar */
+.navbar {
+  background: var(--biru);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border-bottom: 4px solid var(--kuning);
+}
+.navbar a,
+.dropbtn {
+  color: #fff;
+  padding: 14px 16px;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+  display: block;
+}
+.navbar a:hover,
+.dropdown:hover .dropbtn,
+.navbar a.aktif {
+  background: var(--biru2);
+}
+.dropdown {
+  position: relative;
+}
+.dropdown-isi {
+  display: none;
+  position: absolute;
+  background: #fff;
+  min-width: 260px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  z-index: 5;
+}
+.dropdown-isi a {
+  color: var(--teks);
+}
+.dropdown-isi a:hover {
+  background: var(--garis);
+}
+.dropdown:hover .dropdown-isi,
+.dropdown:focus-within .dropdown-isi {
+  display: block;
+}
+.keluar {
+  margin-left: auto;
+  background: var(--kuning);
+  color: var(--teks);
+  border: 0;
+  padding: 8px 16px;
+  margin-right: 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Konten */
+.konten {
+  max-width: 1000px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+.greeting {
+  font-size: 1.4rem;
+  color: var(--teks);
+  font-weight: 600;
+  margin: 0;
+}
+.kartu-ringkas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+.kartu-ringkas div {
+  background: #fff;
+  padding: 14px;
+  border-left: 5px solid var(--kuning);
+  border-radius: 8px;
+}
+.kartu-ringkas strong {
+  display: block;
+  font-size: 1.8rem;
+  color: var(--biru2);
+}
+.kotak {
+  background: #fff;
+  border: 1px solid var(--garis);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+/* Form */
+label {
+  display: block;
+  font-weight: 600;
+  margin: 12px 0 4px;
+}
+input,
+select {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid var(--garis);
+  border-radius: 6px;
+  font: inherit;
+}
+input.salah {
+  border-color: var(--err);
+  background: #fdf2f1;
+}
+.pesan {
+  color: #c4170d;
+  font-size: 0.85rem;
+  margin: 2px 0;
+  min-height: 1.1em;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0 16px;
+}
+.btn {
+  background: var(--kuning);
+  color: var(--teks);
+  border: 0;
+  padding: 10px 22px;
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+}
+.btn.abu {
+  background: #ddd;
+}
+.tautan {
+  background: none;
+  border: 0;
+  color: var(--biru2);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+}
+:focus-visible {
+  outline: 3px solid var(--kuning);
+  outline-offset: 2px;
+}
+
+/* Tabel */
+.scroll {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  min-width: 650px;
+}
+caption {
+  text-align: left;
+  padding: 8px 0;
+  color: var(--teks);
+  font-weight: 600;
+}
+th,
+td {
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--garis);
+  text-align: left;
+}
+th {
+  background: var(--biru2);
+  color: #fff;
+}
+tbody tr {
+  cursor: pointer;
+}
+tbody tr:hover {
+  background: #f6f8fd;
+}
+td img {
+  width: 42px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+.rendah {
+  color: #c4170d;
+  font-weight: 700;
+}
+
+/* Alert */
+.alert {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border-left: 5px solid;
+  margin: 12px 0;
+}
+.alert.ok {
+  background: #e8f6ee;
+  border-color: var(--ok);
+}
+.alert.err {
+  background: #fdecea;
+  border-color: var(--err);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 50, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 10;
+}
+.modal.buka {
+  display: flex;
+}
+.modal .isi {
+  background: #fff;
+  border-radius: 10px;
+  padding: 22px;
+  max-width: 440px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+}
+img.besar {
+  max-width: 100%;
+  max-height: 45vh;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+/* Tracking */
+.status {
+  display: inline-block;
+  background: var(--kuning);
+  padding: 2px 12px;
+  border-radius: 99px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.progress {
+  background: #e3e8f3;
+  border-radius: 99px;
+  height: 12px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+.progress div {
+  background: var(--biru2);
+  height: 100%;
+}
+.timeline {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0 0 0 19px;
+  border-left: 3px solid var(--kuning);
+}
+.timeline li {
+  position: relative;
+  margin-bottom: 14px;
+}
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: -26px;
+  top: 6px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--biru2);
+}
+.timeline time {
+  display: block;
+  font-size: 0.8rem;
+  color: #4a5568;
+}
