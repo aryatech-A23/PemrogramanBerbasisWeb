@@ -1,14 +1,3 @@
-/*
- * tracking-app.js — logika Vue untuk tracking.html
- * ------------------------------------------------------------
- * Ringkasan fitur:
- *  - Cari & lacak status DO (v-if / v-else-if / v-else untuk hasil & status)
- *  - Daftar seluruh DO (list rendering)
- *  - Formulir DO baru: nomor DO otomatis, NIM, nama, ekspedisi, paket,
- *    detail isi paket, tanggal kirim, total harga + validasi sederhana
- *  - Watcher: keyword pencarian, pilihan paket (total harga), input NIM
- */
-
 // Tanggal lokal "YYYY-MM-DD"
 function tanggalHariIni() {
   var d = new Date();
