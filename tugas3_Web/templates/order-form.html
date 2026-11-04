@@ -1,0 +1,95 @@
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <h2>Buat Delivery Order Baru</h2>
+      <p class="muted">
+        Isi data mahasiswa dan pilih paket bahan ajar yang akan dikirim.
+      </p>
+    </div>
+  </div>
+
+  <form class="form-grid" novalidate @submit.prevent @keyup.enter="simpan">
+    <label
+      >Nomor DO (otomatis)
+      <input :value="nextNo" readonly class="readonly" />
+    </label>
+
+    <label
+      >Tanggal Kirim
+      <input v-model="form.tanggalKirim" type="date" />
+      <small class="hint" v-if="form.tanggalKirim"
+        >{{ form.tanggalKirim | tanggal }}</small
+      >
+      <small class="err" v-if="errors.tanggalKirim"
+        >{{ errors.tanggalKirim }}</small
+      >
+    </label>
+
+    <label
+      >NIM
+      <input
+        v-model="form.nim"
+        inputmode="numeric"
+        maxlength="12"
+        placeholder="mis. 123456789"
+      />
+      <small class="err" v-if="errors.nim">{{ errors.nim }}</small>
+    </label>
+
+    <label
+      >Nama Mahasiswa
+      <input v-model="form.nama" placeholder="Nama lengkap" />
+      <small class="err" v-if="errors.nama">{{ errors.nama }}</small>
+    </label>
+
+    <label
+      >Ekspedisi
+      <select v-model="form.ekspedisiKode">
+        <option value="" disabled>Pilih ekspedisi</option>
+        <option v-for="e in ekspedisi" :key="e.kode" :value="e.kode">
+          {{ e.kode }} - {{ e.nama }}
+        </option>
+      </select>
+      <small class="err" v-if="errors.ekspedisiKode"
+        >{{ errors.ekspedisiKode }}</small
+      >
+    </label>
+
+    <label
+      >Paket Bahan Ajar
+      <select v-model="form.paketKode">
+        <option value="" disabled>Pilih paket</option>
+        <option v-for="p in paket" :key="p.kode" :value="p.kode">
+          {{ p.kode }} - {{ p.nama }}
+        </option>
+      </select>
+      <small class="err" v-if="errors.paketKode">{{ errors.paketKode }}</small>
+    </label>
+
+    <!-- Detail isi paket muncul setelah paket dipilih -->
+    <div class="paket-detail full" v-show="paketTerpilih">
+      <template v-if="paketTerpilih">
+        <strong>{{ paketTerpilih.nama }}</strong>
+        <ul>
+          <li v-for="(kode, i) in paketTerpilih.isi" :key="kode">
+            {{ i + 1 }}. {{ kode }}
+          </li>
+        </ul>
+      </template>
+    </div>
+
+    <div class="total full">
+      <span>Total Harga</span>
+      <strong>{{ totalHarga | rupiah }}</strong>
+    </div>
+
+    <div class="full actions">
+      <button class="btn btn-ghost" type="button" @click="reset">
+        Kosongkan
+      </button>
+      <button class="btn btn-primary" type="button" @click="simpan">
+        Buat DO
+      </button>
+    </div>
+  </form>
+</section>

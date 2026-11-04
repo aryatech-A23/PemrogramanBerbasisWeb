@@ -1,0 +1,271 @@
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <h2>Stok Bahan Ajar</h2>
+      <p class="muted">Pantau persediaan bahan ajar di seluruh UT-Daerah.</p>
+    </div>
+    <button class="btn btn-primary" type="button" @click="bukaTambah">
+      + Tambah Stok
+    </button>
+  </div>
+
+  <!-- Ringkasan -->
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-num">{{ ringkasan.total }}</span
+      ><span>Judul terdaftar</span>
+    </div>
+    <div class="stat stat-warn">
+      <span class="stat-num">{{ ringkasan.menipis }}</span><span>Menipis</span>
+    </div>
+    <div class="stat stat-bad">
+      <span class="stat-num">{{ ringkasan.kosong }}</span><span>Kosong</span>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <label
+      >UT-Daerah
+      <select v-model="filterUpbjj">
+        <option value="">Semua UT-Daerah</option>
+        <option v-for="u in upbjjList" :key="u" :value="u">{{ u }}</option>
+      </select>
+    </label>
+
+    <label v-if="filterUpbjj"
+      >Kategori
+      <select v-model="filterKategori">
+        <option value="">Semua kategori</option>
+        <option v-for="k in kategoriTersedia" :key="k" :value="k">
+          {{ k }}
+        </option>
+      </select>
+    </label>
+
+    <label
+      >Pengingat Re-order
+      <select v-model="filterStok">
+        <option value="semua">Semua stok</option>
+        <option value="reorder">Qty &lt; Safety (menipis/kosong)</option>
+        <option value="kosong">Qty = 0 (kosong)</option>
+      </select>
+    </label>
+
+    <label
+      >Urutkan
+      <select v-model="sortKey">
+        <option value="judul">Judul</option>
+        <option value="qty">Stok (qty)</option>
+        <option value="harga">Harga</option>
+      </select>
+    </label>
+
+    <button
+      class="btn btn-ghost"
+      type="button"
+      @click="toggleArah"
+      :title="sortDir === 'asc' ? 'Naik (A-Z / kecil-besar)' : 'Turun (Z-A / besar-kecil)'"
+    >
+      {{ sortDir === 'asc' ? '▲ Naik' : '▼ Turun' }}
+    </button>
+    <button
+      class="btn btn-ghost"
+      type="button"
+      @click="resetFilter"
+      :disabled="!adaFilterAktif"
+    >
+      Reset Filter
+    </button>
+  </div>
+
+  <p class="muted small">
+    Menampilkan <strong>{{ daftarTampil.length }}</strong> dari {{ items.length
+    }} judul.
+  </p>
+
+  <!-- Tabel -->
+  <div class="table-wrap">
+    <table v-if="daftarTampil.length">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Kode / Judul</th>
+          <th>Kategori</th>
+          <th>UT-Daerah</th>
+          <th>Lokasi Rak</th>
+          <th class="num">Harga</th>
+          <th class="num">Qty</th>
+          <th class="num">Safety</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="(it, i) in daftarTampil"
+          :key="it.kode"
+          :class="{ 'row-kosong': it.qty === 0 }"
+        >
+          <td>{{ i + 1 }}</td>
+          <td>
+            <strong>{{ it.kode }}</strong><br /><span v-text="it.judul"></span>
+          </td>
+          <td>{{ it.kategori }}</td>
+          <td>{{ it.upbjj }}</td>
+          <td>{{ it.lokasiRak }}</td>
+          <td class="num">{{ it.harga | rupiah }}</td>
+          <td class="num">{{ it.qty | buah }}</td>
+          <td class="num">{{ it.safety | buah }}</td>
+          <td
+            class="status-cell"
+            @mouseenter="hoverKode = it.kode"
+            @mouseleave="hoverKode = null"
+          >
+            <status-badge :qty="it.qty" :safety="it.safety"></status-badge>
+            <!-- Tooltip catatan (HTML) saat mouse di atas kolom Status -->
+            <div class="tooltip" v-if="hoverKode === it.kode && it.catatanHTML">
+              <span class="tooltip-title">Catatan</span>
+              <div v-html="it.catatanHTML"></div>
+            </div>
+          </td>
+          <td class="aksi">
+            <button
+              class="icon-btn"
+              type="button"
+              title="Ubah"
+              @click="bukaUbah(it)"
+            >
+              &#9998;
+            </button>
+            <button
+              class="icon-btn danger"
+              type="button"
+              title="Hapus"
+              @click="hapus(it)"
+            >
+              &#128465;
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div v-else class="empty">
+      <p>Tidak ada stok yang cocok dengan filter.</p>
+      <button class="btn btn-ghost" type="button" @click="resetFilter">
+        Reset Filter
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="modal"
+    v-show="showForm"
+    @click.self="tutupForm"
+    @keyup.esc="tutupForm"
+  >
+    <div class="modal-box wide">
+      <header class="modal-head">
+        <h3>
+          {{ mode === 'tambah' ? 'Tambah Stok Baru' : 'Ubah Stok ' + form.kode
+          }}
+        </h3>
+        <button
+          class="icon-btn"
+          type="button"
+          title="Tutup (Esc)"
+          @click="tutupForm"
+        >
+          &times;
+        </button>
+      </header>
+      <form
+        class="modal-body form-grid"
+        novalidate
+        @submit.prevent
+        @keyup.enter="simpan"
+      >
+        <label
+          >Kode
+          <input
+            ref="fokusAwal"
+            v-model.trim="form.kode"
+            :readonly="mode === 'ubah'"
+            placeholder="mis. EKMA4117"
+          />
+          <small class="err" v-if="errors.kode">{{ errors.kode }}</small>
+        </label>
+        <label
+          >Judul
+          <input v-model.trim="form.judul" placeholder="Judul bahan ajar" />
+          <small class="err" v-if="errors.judul">{{ errors.judul }}</small>
+        </label>
+        <label
+          >Kategori
+          <select v-model="form.kategori">
+            <option value="" disabled>Pilih kategori</option>
+            <option v-for="k in kategoriList" :key="k" :value="k">
+              {{ k }}
+            </option>
+          </select>
+          <small class="err" v-if="errors.kategori"
+            >{{ errors.kategori }}</small
+          >
+        </label>
+        <label
+          >UT-Daerah
+          <select v-model="form.upbjj">
+            <option value="" disabled>Pilih UT-Daerah</option>
+            <option v-for="u in upbjjList" :key="u" :value="u">{{ u }}</option>
+          </select>
+          <small class="err" v-if="errors.upbjj">{{ errors.upbjj }}</small>
+        </label>
+        <label
+          >Lokasi Rak
+          <input v-model.trim="form.lokasiRak" placeholder="mis. R1-A3" />
+          <small class="err" v-if="errors.lokasiRak"
+            >{{ errors.lokasiRak }}</small
+          >
+        </label>
+        <label
+          >Harga (Rp)
+          <input
+            v-model="form.harga"
+            type="number"
+            min="0"
+            placeholder="65000"
+          />
+          <small class="err" v-if="errors.harga">{{ errors.harga }}</small>
+        </label>
+        <label
+          >Qty (buah)
+          <input v-model="form.qty" type="number" min="0" placeholder="0" />
+          <small class="err" v-if="errors.qty">{{ errors.qty }}</small>
+        </label>
+        <label
+          >Safety Stock (buah)
+          <input v-model="form.safety" type="number" min="0" placeholder="0" />
+          <small class="err" v-if="errors.safety">{{ errors.safety }}</small>
+        </label>
+        <label class="full"
+          >Catatan (boleh HTML sederhana)
+          <input
+            v-model="form.catatanHTML"
+            placeholder="mis. <em>Edisi 2024</em>"
+          />
+        </label>
+      </form>
+      <footer class="modal-foot">
+        <span class="muted small"
+          >Tekan <kbd>Enter</kbd> untuk menyimpan, <kbd>Esc</kbd> untuk
+          menutup.</span
+        >
+        <button class="btn btn-ghost" type="button" @click="tutupForm">
+          Batal
+        </button>
+        <button class="btn btn-primary" type="button" @click="simpan">
+          Simpan
+        </button>
+      </footer>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,124 @@
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <h2>Tracking Delivery Order</h2>
+      <p class="muted">
+        Cari berdasarkan Nomor DO atau NIM, lalu lihat riwayat perjalanan
+        paketnya.
+      </p>
+    </div>
+  </div>
+
+  <div class="search-bar">
+    <input
+      v-model="query"
+      type="text"
+      placeholder="Ketik Nomor DO atau NIM..."
+      @keyup.enter="cari"
+      @keyup.esc="bersihkan"
+      aria-label="Cari DO atau NIM"
+    />
+    <button class="btn btn-primary" type="button" @click="cari">Cari</button>
+    <button class="btn btn-ghost" type="button" @click="bersihkan">
+      Reset
+    </button>
+  </div>
+  <p class="muted small">
+    Tekan <kbd>Enter</kbd> untuk mencari, <kbd>Esc</kbd> untuk menghapus
+    pencarian.
+  </p>
+
+  <div class="tracking-grid">
+    <!-- Daftar DO -->
+    <div class="do-list">
+      <h3>Hasil ({{ hasil.length }})</h3>
+      <ul v-if="hasil.length" class="cards">
+        <li
+          v-for="d in hasil"
+          :key="d.noDO"
+          class="do-card"
+          :class="{ aktif: d.noDO === terpilih }"
+          @click="pilih(d.noDO)"
+        >
+          <div class="do-top">
+            <strong>{{ d.noDO }}</strong>
+            <span
+              class="pill"
+              :class="d.status === 'Dalam Perjalanan' ? 'pill-info' : 'pill-ok'"
+              >{{ d.status }}</span
+            >
+          </div>
+          <div>{{ d.nama }} &middot; NIM {{ d.nim }}</div>
+          <div class="muted small">
+            Kirim {{ d.tanggalKirim | tanggal }} &middot; {{ d.total | rupiah }}
+          </div>
+        </li>
+      </ul>
+      <p v-else class="empty">
+        DO dengan kata kunci "<strong>{{ applied }}</strong>" tidak ditemukan.
+      </p>
+    </div>
+
+    <div class="do-detail">
+      <template v-if="detail">
+        <h3>Detail {{ detail.noDO }}</h3>
+        <dl class="detail-list">
+          <dt>Nama</dt>
+          <dd>{{ detail.nama }}</dd>
+          <dt>NIM</dt>
+          <dd>{{ detail.nim }}</dd>
+          <dt>Ekspedisi</dt>
+          <dd>{{ detail.ekspedisi }}</dd>
+          <dt>Tanggal Kirim</dt>
+          <dd>{{ detail.tanggalKirim | tanggal }}</dd>
+          <dt>Paket</dt>
+          <dd>
+            {{ namaPaket }}
+            <span class="muted small">({{ detail.paket }})</span>
+          </dd>
+          <dt>Total Harga</dt>
+          <dd>{{ detail.total | rupiah }}</dd>
+          <dt>Status</dt>
+          <dd>{{ detail.status }}</dd>
+        </dl>
+
+        <h4>Perjalanan Paket</h4>
+        <ol class="timeline">
+          <li
+            v-for="(p, i) in perjalananUrut"
+            :key="i"
+            :class="{ terbaru: i === 0 }"
+          >
+            <span class="waktu">{{ p.waktu | waktu }}</span>
+            <span>{{ p.keterangan }}</span>
+          </li>
+        </ol>
+
+        <div class="progres-form">
+          <label
+            >Tambah progres perjalanan
+            <input
+              v-model="keterangan"
+              type="text"
+              placeholder="mis. Tiba di Hub Jakarta"
+              @keyup.enter="tambahProgres"
+            />
+          </label>
+          <button class="btn btn-primary" type="button" @click="tambahProgres">
+            Tambah
+          </button>
+        </div>
+        <small class="err" v-if="errorProgres">{{ errorProgres }}</small>
+        <p class="muted small">
+          Waktu diambil otomatis dari jam lokal perangkat.
+        </p>
+      </template>
+      <div v-else class="empty">
+        <p>
+          Pilih salah satu DO di sebelah kiri untuk melihat detail dan
+          perjalanan paket.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

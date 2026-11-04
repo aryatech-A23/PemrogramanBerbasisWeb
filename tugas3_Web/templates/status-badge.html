@@ -1,0 +1,5 @@
+<span class="badge" :class="'badge-' + level">
+  <template v-if="level === 'kosong'">&#9940; Kosong</template>
+  <template v-else-if="level === 'menipis'">&#9888; Menipis</template>
+  <template v-else>&#10004; Aman</template>
+</span>

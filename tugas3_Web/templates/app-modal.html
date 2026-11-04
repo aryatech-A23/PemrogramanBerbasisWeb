@@ -1,0 +1,46 @@
+<div
+  class="modal"
+  v-show="visible"
+  @click.self="close(false)"
+  @keyup.esc="close(false)"
+  tabindex="-1"
+>
+  <div class="modal-box" role="dialog" aria-modal="true">
+    <header
+      class="modal-head"
+      :class="mode === 'confirm' ? 'head-danger' : 'head-info'"
+    >
+      <h3 v-text="title"></h3>
+      <button
+        class="icon-btn"
+        type="button"
+        title="Tutup (Esc)"
+        @click="close(false)"
+      >
+        &times;
+      </button>
+    </header>
+    <div class="modal-body">
+      <p>{{ message }}</p>
+    </div>
+    <footer class="modal-foot">
+      <button
+        v-if="mode === 'confirm'"
+        class="btn btn-ghost"
+        type="button"
+        @click="close(false)"
+      >
+        {{ cancelText }}
+      </button>
+      <button
+        ref="okBtn"
+        class="btn"
+        :class="mode === 'confirm' ? 'btn-danger' : 'btn-primary'"
+        type="button"
+        @click="close(true)"
+      >
+        {{ okText }}
+      </button>
+    </footer>
+  </div>
+</div>
